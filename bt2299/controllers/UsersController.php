@@ -2,28 +2,53 @@
 require_once('BaseController.php');
 require_once('../models/Users.php');
 
+/**
+ * CRUD:
+ * 		m = users -> Ket hop tao controller: UsersController -> Chua dung toi.
+ * 		action:
+ * 			- view: $this->show()
+ * 			- post: $this->post()
+ * 			- edit: $this->edit()
+ * 			- delete: $this->delete()
+ * 			- confirm-delete: $this->confirmDelete()
+ * 			- ~~~: $this->index()
+ */
 class UsersController extends BaseController {
-	public function doRequest() {
-		$action = getGet('action');
+	public function edit() {
+		$id = getGet('id');
+		$user = Users::find($id);
 
-		switch($action) {
-			case 'view':
-				$this->show();
-			break;
-			case 'post':
-				$this->post();
-			break;
-			case 'edit':
+		$this->view('users/edit.php', [
+			'user' => $user
+		]);
+	}
 
-			break;
-			case 'delete':
+	public function confirmDelete() {
+		$id = getPost('id');
+		$u = new Users();
+		$u->id = $id;
+		$u->delete();
 
-			break;
-			default:
-				$this->show();
-			break;
-			//Viet them cac function cho controller nay.
-		}
+		$this->redirect('m=users');
+	}
+
+	public function delete() {
+		$id = getGet('id');
+		$user = Users::find($id);
+
+		$this->view('users/delete.php', [
+			'user' => $user
+		]);
+	}
+
+	public function index() {
+		$userList = Users::list();
+		$index = 0;
+
+		$this->view('users/index.php', [
+			'userList' => $userList,
+			'index'    => $index
+		]);
 	}
 
 	public function show() {
@@ -31,13 +56,10 @@ class UsersController extends BaseController {
 	}
 
 	public function post() {
-		// Su post du lieu o day
-		// var_dump($_POST);
-		// var_dump($_GET);
 		$u = new Users();
 		$u->processForm();
-		$u->insert();
+		$u->save();
 
-		header('Location: ?m=users&action=view');
+		$this->redirect('m=users');
 	}
 }
