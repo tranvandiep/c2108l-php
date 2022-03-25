@@ -9,3 +9,5 @@ Yeu cau:
 	- controller: UserController
 	- user/view -> @showView -> @view('user/view') -> Hien thi thong tin dang ky tai khoan
 		-> click submit -> day du lieu len server -> doc dc noi dung du lieu do
+	-> POST
+		

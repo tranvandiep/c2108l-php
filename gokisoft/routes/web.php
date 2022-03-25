@@ -39,3 +39,14 @@ Route::get('/test/view', [TestController::class, 'showView']);
 
 Route::get('/user/view', [UserController::class, 'view']);
 Route::post('/user/post', [UserController::class, 'post'])->name('user-post');//route alias
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
