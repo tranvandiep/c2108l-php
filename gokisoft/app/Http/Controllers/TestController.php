@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use DB;
 
 class TestController extends Controller
 {
@@ -28,5 +29,16 @@ class TestController extends Controller
             ],
             'subjectList' => ['Lap Trinh C', 'HTML/CSS/JS', 'SQL Server', 'PHP/Laravel']
         ]);
+    }
+
+    public function dump(Request $request)
+    {
+        $dataList = DB::table('hotel')
+            ->join('rooms', 'rooms.hotel_id', '=', 'hotel.id') //leftJoin
+            ->select('hotel.id', 'hotel.room_no as hotel_name', 'rooms.room_no as room_no', 'rooms.floor')
+            ->get();
+        foreach($dataList as $item) {
+            echo $item->id.'-'.$item->hotel_name.'-'.$item->room_no.'-'.$item->floor.'<br/>';
+        }
     }
 }
